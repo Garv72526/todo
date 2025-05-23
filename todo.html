@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="todo.css">
+</head>
+
+<body>
+    <h1>TODO LIST</h1>
+    <div>
+        <input type="text">
+        <button onclick="add()">Add</button>
+        <div id="task"></div>
+    </div>
+</body>
+<script>
+    let arr = [];
+    function add() {
+        let task = document.querySelector("input").value;
+        arr.push({
+            name: task
+        })
+        disp();
+    }
+    function disp() {
+        let html = ''
+        for (let i = 0; i < arr.length; i++) {
+            let task = arr[i];
+            html = `<div>${task.name}
+                <button onclick="del(${i})">delete</button>
+                </div>`+ html
+        }
+        document.querySelector("#task").innerHTML = html;
+    }
+    function del(index) {
+        arr.splice(index, 1);
+        disp();
+    }
+    fetch("http://localhost:3000/todos/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: 1,
+            todo: "Learn Express"
+        })
+    }).then(res => res.text())
+
+</script>
+
+</html>
